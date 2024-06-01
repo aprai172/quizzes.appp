@@ -1,0 +1,101 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 600px;
+  max-width: 90%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.step {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.selected {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.addButton {
+  margin-left: auto;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+}
+
+.question {
+  margin-bottom: 20px;
+}
+
+.input,
+.optionInput {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.optionType label {
+  margin-right: 10px;
+}
+
+.addOption {
+  display: block;
+  padding: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cancelButton,
+.createButton {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.timer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.timerButton {
+  cursor: pointer;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 5px;
+  text-align: center;
+  width: 60px;
+  background-color: white;
+}
+
+.selectedTimer {
+  background-color: red;
+  color: white;
+}

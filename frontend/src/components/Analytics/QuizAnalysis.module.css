@@ -1,0 +1,79 @@
+.container {
+  width: 80%;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  padding-left: 12rem;
+}
+
+
+.title {
+  text-align: center;
+  color: #5076ff;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  font-family: Poppins;
+  font-size: 70px;
+  font-weight: 900;
+  
+}
+.table{
+    width: 90%;
+    margin: auto;
+}
+.header {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1.5fr 1fr 1fr 2fr;
+  background-color:  #5076FF;
+  ;
+  padding: 10px;
+  font-weight: bold;
+
+  border-radius: 12px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1.5fr 1fr 1fr 2fr;
+  align-items: center;
+  padding: 10px;
+  
+}
+
+.row:nth-child(odd) {
+    background: #B3C4FF;
+    border-radius: 12px;
+
+}
+
+.actions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.editButton,
+.deleteButton,
+.shareButton {
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+  border: none;
+  cursor: pointer;
+}
+
+.editButton {
+  background-image: url("/src/assets/Edit.png"); /* Add your edit icon here */
+}
+
+.deleteButton {
+  background-image: url("/src/assets/Delete.png"); /* Add your delete icon here */
+}
+
+.shareButton {
+  background-image: url("/src/assets/Share.png"); /* Add your share icon here */
+}
+
+.analysisLink {
+  color: #1a73e8;
+  text-decoration: none;
+  cursor: pointer;
+}

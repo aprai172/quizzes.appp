@@ -1,0 +1,81 @@
+/* src/components/QuizAnalysis.module.css */
+.quizAnalysis {
+    padding: 5rem;
+    width: 88%;
+    padding-left: 22rem;
+  }
+  
+  .title {
+    font-size: 3rem;
+    color: #3f51b5;
+    margin-bottom: 2rem;
+  }
+  
+  .questionStatsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+.questionStats {
+    margin: 1.5rem 0;
+    max-width: 800px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .questionTitle {
+    font-size: 2rem;
+  }
+  
+  .info {
+    text-align: right;
+    color: #FF5D01;
+  
+
+
+  }
+  
+  .info p {
+    margin: 0;
+    font-size: 1rem;
+    font-family: Poppins;
+    font-weight: 600;
+    line-height: 22.5px;
+    
+  }
+  
+  .statsContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+  }
+  
+  .statBox {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+    margin: 10px;
+    text-align: center;
+    
+    transition: box-shadow 0.3s ease;
+    min-width: 50%;
+
+
+  }
+  
+  .statBox:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .statNumber {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #3f51b5;
+  }
+  

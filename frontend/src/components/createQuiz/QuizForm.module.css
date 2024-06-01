@@ -1,0 +1,51 @@
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+}
+
+.input {
+  width: 100%;
+  margin: 10px 0;
+  padding: 8px;
+}
+
+.quizType {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0;
+}
+
+.button {
+  padding: 8px 16px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cancelButton, .continueButton {
+  padding: 8px 16px;
+}
+.continueButton {
+  background-color: green;
+  color: white;
+}
+
+.selected{
+  background-color: green;
+}

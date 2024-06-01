@@ -1,0 +1,38 @@
+.dashboard {
+  flex: 1;
+  padding: 5rem;
+  display: flex;
+  flex-direction: column;
+  padding-left: 22rem;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+}
+
+.trending {
+  margin-top: 20px;
+  flex: 1; /* Ensure the trending section grows */
+  display: flex;
+  flex-direction: column;
+}
+
+.quizzes {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1; /* Ensure the quizzes take up remaining space */
+}
+  
+  @media (max-width: 768px) {
+    .stats {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .quizzes {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  

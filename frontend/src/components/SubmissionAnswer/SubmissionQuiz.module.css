@@ -1,0 +1,96 @@
+/* src/Quiz.module.css */
+/* src/App.css */
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #1a1a2e;
+}
+
+.quizContainer {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  background-color: #fff;
+  color: black;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 80%;
+  height: 80%;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 4rem;
+
+  font-family: Poppins;
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.timer {
+  color: red;
+  font-weight: bold;
+}
+
+.question {
+  margin-bottom: 2rem;
+  font-family: Poppins;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 60px;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 2rem;
+  width: 100%;
+  height: 100%;
+}
+
+.optionButton {
+    background-color: #e0e0e0;
+    border: none;
+    padding: 10px;
+    width: 45%;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+    justify-content: center;
+}
+
+.optionButton:focus {
+  outline: 2px solid #4a90e2;
+}
+
+.nextButton {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.optionImage {
+    max-width: 30%;
+    height: auto;
+    margin-bottom: 5px;
+  }
+  
