@@ -25,19 +25,20 @@ const Dashboard = () => {
           setQuizzes(data);
 
           // Calculate totals
-          const totals = data?.reduce(
+          const totals = data.reduce(
             (acc, quiz) => {
-              acc.questionsCreated += quiz?.questions.length;
-              acc.totalImpressions += quiz?.impressions;
+              acc.questionsCreated += quiz?.questions?.length ;
+              acc.totalImpressions += quiz?.impressions || 0;
               return acc;
             },
             { questionsCreated: 0, totalImpressions: 0 }
           );
+          
 
           setStats({
-            quizzesCreated: data?.length,
-            questionsCreated: totals?.questionsCreated,
-            totalImpressions: totals?.totalImpressions,
+            quizzesCreated: data.length,
+            questionsCreated: totals.questionsCreated,
+            totalImpressions: totals.totalImpressions,
           });
         } else {
           console.error("Unexpected data format:", data);
@@ -51,7 +52,7 @@ const Dashboard = () => {
   }, []);
 
   // Filter trending quizzes
-  const trendingQuizzes = quizzes?.filter((quiz) => quiz?.impressions > 0) ?? [];
+  const trendingQuizzes = quizzes.filter((quiz) => quiz?.impressions > 0) ?? [];
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -65,20 +66,20 @@ const Dashboard = () => {
   return (
     <div className={styles.dashboard}>
       <div className={styles.stats}>
-        <StatsCard title="Quizzes Created" value={stats?.quizzesCreated} />
-        <StatsCard title="Questions Created" value={stats?.questionsCreated} />
-        <StatsCard title="Total Impressions" value={stats?.totalImpressions} />
+        <StatsCard title="Quizzes Created" value={stats.quizzesCreated} />
+        <StatsCard title="Questions Created" value={stats.questionsCreated} />
+        <StatsCard title="Total Impressions" value={stats.totalImpressions} />
       </div>
       <div className={styles.trendingQuizzes}>
         <h3>Trending Quizzes</h3>
         <div className={styles.quizzes}>
-          {trendingQuizzes?.length > 0 ? (
-            trendingQuizzes?.map((quiz, index) => (
+          {trendingQuizzes.length > 0 ? (
+            trendingQuizzes.map((quiz, index) => (
               <div className={styles.quizItem} key={index}>
                 <QuizCard
-                  title={quiz?.title}
-                  views={quiz?.impressions}
-                  date={formatDate(quiz?.createdAt)}
+                  title={quiz.title}
+                  views={quiz.impressions}
+                  date={formatDate(quiz.createdAt)}
                 />
               </div>
             ))
