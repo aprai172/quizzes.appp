@@ -9,7 +9,7 @@ const PublishModal = () => {
   let id  = localStorage.getItem("quizId")
   console.log(id)
 
-  let link = `https://quizees.vercel.app/test/${id}`
+  let link = `${import.meta.env.VITE_REACT_APP_FRONTEND_URL}/test/${id}`
 
   const handleShareClick = () => {
     navigator.clipboard.writeText(link);
