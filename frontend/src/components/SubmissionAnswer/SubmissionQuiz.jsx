@@ -76,7 +76,7 @@ const SubmissionQuiz = () => {
   const handleSubmit = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/submissions/${id}/submit`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/submissions/${id}/submit`,
         {
           method: "POST",
           headers: {

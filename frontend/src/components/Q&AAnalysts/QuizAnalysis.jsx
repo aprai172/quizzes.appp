@@ -14,7 +14,7 @@ const QuizAnalysis = () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:5000/api/submissions/qa/${quizId}`, {
+        const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/submissions/qa/${quizId}`, {
           headers: {
             "Authorization": token, // Include the token in the request headers
             "Content-Type": "application/json"

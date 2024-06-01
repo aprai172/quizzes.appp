@@ -39,7 +39,7 @@ const SignUpLoginForm = () => {
 
   const signup = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/users/signup', {
+      const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/users/signup`, {
         username,
         email,
         password,
@@ -55,7 +55,7 @@ const SignUpLoginForm = () => {
 
   const login = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/users/login', {
+      const response = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/users/login`, {
         email,
         password
       });

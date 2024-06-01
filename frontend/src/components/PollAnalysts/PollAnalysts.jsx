@@ -21,7 +21,7 @@ const PollAnalysts = () => {
         }
 
         const response = await fetch(
-          `http://localhost:5000/api/submissions/poll/${quizId}`,
+          `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/submissions/poll/${quizId}`,
           {
             headers: {
               Authorization: token, // Set the Authorization header
@@ -64,7 +64,7 @@ const PollAnalysts = () => {
     <div className={styles.quizAnalysis}>
       <h1 className={styles.title}>{data.title} Question Analysis</h1>
       <div className={styles.info}>
-        <p>Created on: 04 Sep, 2023</p>
+        <p>{data.createdAt}</p>
         <p>Impressions: 667</p>
       </div>
       {data.questions.map((question, index) => (

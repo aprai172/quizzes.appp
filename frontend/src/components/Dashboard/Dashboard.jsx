@@ -14,7 +14,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/quizzes", {
+        const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes`, {
           headers: {
             Authorization: localStorage.getItem("authToken"), // Assuming you pass the token here
           },

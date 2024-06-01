@@ -19,7 +19,7 @@ const QuizForm = () => {
     const quizId = localStorage.getItem("quizId");
     if (editFlag && quizId) {
       setIsEdit(true);
-      fetch(`http://localhost:5000/api/quizzes/${quizId}`, {
+      fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes/${quizId}`, {
         headers: {
           'Authorization': localStorage.getItem("authToken") // Assuming you pass the token here
         }

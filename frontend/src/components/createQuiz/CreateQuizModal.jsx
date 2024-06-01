@@ -82,7 +82,7 @@ const CreateQuizModal = ({ setIsShow, quizData, updateQuizData, isEdit }) => {
 
     try {
       const method = isEdit ? 'PUT' : 'POST';
-      const url = isEdit ? `http://localhost:5000/api/quizzes/${localStorage.getItem("quizId")}` : 'http://localhost:5000/api/quizzes';
+      const url = isEdit ? `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes/${localStorage.getItem("quizId")}` : `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes`;
       
       const response = await fetch(url, {
         method,

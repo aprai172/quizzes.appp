@@ -9,7 +9,7 @@ function QuizAnalysis() {
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/quizzes", {
+        const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes`, {
           headers: {
             Authorization: localStorage.getItem("authToken"), 
           },
@@ -66,7 +66,7 @@ function QuizAnalysis() {
 
   const handleDeleteClick = async (quizId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/quizzes/${quizId}`, {
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes/${quizId}`, {
         method: "DELETE",
         headers: {
           Authorization: localStorage.getItem("authToken"),
