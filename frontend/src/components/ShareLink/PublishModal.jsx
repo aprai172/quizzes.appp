@@ -2,16 +2,20 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './PublishModal.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const PublishModal = () => {
+  const navigate = useNavigate()
   let id  = localStorage.getItem("quizId")
   console.log(id)
 
-  let link = `http://localhost:5173/test/${id}`
+  let link = `https://quizees.vercel.app/test/${id}`
 
   const handleShareClick = () => {
     navigator.clipboard.writeText(link);
     toast.success('Link copied to Clipboard');
+    navigate("/quiz-analysis")
+
   };
 
   return (
