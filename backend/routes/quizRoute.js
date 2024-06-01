@@ -4,13 +4,45 @@ const Quiz = require('../models/quizModel');
 const Impression = require('../models/impressionModel');
 
 const router = express.Router();
-
-// Create a new quiz
 router.post('/', auth, async (req, res) => {
   const { title, type, questions } = req.body;
 
+  if (!Array.isArray(questions)) {
+    return res.status(400).json({ message: 'Questions must be an array' });
+  }
+
   if (questions.length > 5) {
     return res.status(400).json({ message: 'Cannot have more than 5 questions' });
+  }
+
+  for (const question of questions) {
+    if (!Array.isArray(question.options) || question.options.length === 0) {
+      return res.status(400).json({ message: 'Each question must have non-empty options' });
+    }
+
+    if (question.optionType === 'text' || question.optionType === 'textImageUrl') {
+      for (const option of question.options) {
+        if (!option.text || typeof option.text !== 'string') {
+          return res.status(400).json({ message: 'Each option must have non-empty text' });
+        }
+      }
+    }
+
+    if (question.optionType === 'imageUrl' || question.optionType === 'textImageUrl') {
+      for (const option of question.options) {
+        if (!option.imageUrl || typeof option.imageUrl !== 'string') {
+          return res.status(400).json({ message: 'Each option must have a valid imageUrl' });
+        }
+      }
+    }
+
+    if (question.optionType === 'textImageUrl') {
+      for (const option of question.options) {
+        if (!option.text || typeof option.text !== 'string' || !option.imageUrl || typeof option.imageUrl !== 'string') {
+          return res.status(400).json({ message: 'Each option must have both non-empty text and a valid imageUrl' });
+        }
+      }
+    }
   }
 
   const newQuiz = new Quiz({
@@ -24,11 +56,9 @@ router.post('/', auth, async (req, res) => {
     const savedQuiz = await newQuiz.save();
     res.status(201).json(savedQuiz);
   } catch (error) {
-    res.status(500).json({ message:  error.message });
+    res.status(500).json({ message: error.message });
   }
 });
-
-
 
 // Get quiz details by ID
 router.get('/:id', async (req, res) => {
