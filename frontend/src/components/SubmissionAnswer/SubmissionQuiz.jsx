@@ -5,7 +5,6 @@ import Poll from "./Poll";
 import QA from "./QA";
 import { PacmanLoader } from "react-spinners";
 
-
 const SubmissionQuiz = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
@@ -26,7 +25,9 @@ const SubmissionQuiz = () => {
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
-         setTimeout(()=>{ setLoading(false)},2000)
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
 
         const data = await response.json();
         setQuiz(data);
@@ -50,7 +51,6 @@ const SubmissionQuiz = () => {
             },
           }
         );
-        
       } catch (error) {
         console.error("Error fetching quiz data:", error);
       }
@@ -149,7 +149,6 @@ const SubmissionQuiz = () => {
   return (
     <div className={styles.App}>
       {!isSubmitted ? (
-        
         <div className={styles.quizContainer}>
           <div className={styles.header}>
             <div>
@@ -167,33 +166,27 @@ const SubmissionQuiz = () => {
               <button
                 key={index}
                 className={styles.optionButton}
-                onClick={() => handleOptionSelect(option.text)}
+                onClick={() => handleOptionSelect(option.imageUrl || option.text)}
               >
-                {(currentQuestion.optionType === "textImageUrl" ||
-                  currentQuestion.optionType === "text" ||
-                  currentQuestion.optionType === "imageUrl") && (
+                {currentQuestion.optionType === "textImageUrl" && (
                   <>
-                    {currentQuestion.optionType === "textImageUrl" && (
-                      <>
-                        <img
-                          src={option.imageUrl}
-                          alt={`Option ${index + 1}`}
-                          className={styles.optionImage}
-                        />
-                        <div>{option.text}</div>
-                      </>
-                    )}
-                    {currentQuestion.optionType === "text" && (
-                      <div>{option.text}</div>
-                    )}
-                    {currentQuestion.optionType === "imageUrl" && (
-                      <img
-                        src={option.imageUrl}
-                        alt={`Option ${index + 1}`}
-                        className={styles.optionImage}
-                      />
-                    )}
+                    <img
+                      src={option.imageUrl}
+                      alt={`Option ${index + 1}`}
+                      className={styles.optionImage}
+                    />
+                    <div>{option.text}</div>
                   </>
+                )}
+                {currentQuestion.optionType === "text" && (
+                  <div>{option.text}</div>
+                )}
+                {currentQuestion.optionType === "imageUrl" && (
+                  <img
+                    src={option.imageUrl}
+                    alt={`Option ${index + 1}`}
+                    className={styles.optionImage}
+                  />
                 )}
               </button>
             ))}
@@ -210,8 +203,7 @@ const SubmissionQuiz = () => {
         </div>
       ) : (
         renderQuestionComponent()
-      )
-      }{" "}
+      )}
     </div>
   );
 };
