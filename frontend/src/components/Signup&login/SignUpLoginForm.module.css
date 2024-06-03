@@ -87,6 +87,7 @@
   font-size: 1rem;
   background: #F4F4F4;
   outline: none;
+  border-radius: 10px 10px 0px 0px;
 }
 
 .errorInput {
