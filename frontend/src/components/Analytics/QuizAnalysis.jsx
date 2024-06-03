@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./QuizAnalysis.module.css";
 import Delete from "./Delete";
+import { PacmanLoader } from "react-spinners";
 
 function QuizAnalysis() {
   const [quizzes, setQuizzes] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [quizToDelete, setQuizToDelete] = useState(null);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchQuizzes = async () => {
@@ -17,6 +19,13 @@ function QuizAnalysis() {
             Authorization: localStorage.getItem("authToken"),
           },
         });
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
         const data = await response.json();
 
         setQuizzes(data);
@@ -100,6 +109,23 @@ function QuizAnalysis() {
     setShowDeleteModal(false);
     setQuizToDelete(null);
   };
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          width: "100vw",
+          color: "#8E8E8E",
+        }}
+      >
+        <PacmanLoader color="#333" size={50} loading={loading} />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>

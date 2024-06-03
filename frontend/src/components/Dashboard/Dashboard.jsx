@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import StatsCard from "./StatsCard";
 import QuizCard from "./QuizCard";
 import styles from "./Dashboard.module.css";
+import { PacmanLoader } from 'react-spinners';
+
 
 const Dashboard = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -10,6 +12,7 @@ const Dashboard = () => {
     questionsCreated: 0,
     totalImpressions: "0",
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchQuizzes = async () => {
@@ -19,6 +22,10 @@ const Dashboard = () => {
             Authorization: localStorage.getItem("authToken"), // Assuming you pass the token here
           },
         });
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        setTimeout(()=>{ setLoading(false)},2000)
         const data = await response.json();
 
         if (Array.isArray(data)) {
@@ -63,6 +70,21 @@ const Dashboard = () => {
     });
   };
 
+  
+  if (loading) {
+    return  ( <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh",
+      width: "100vw",
+      color: "#8E8E8E",
+    }}
+  >
+   <PacmanLoader color="#333" size={50} loading={loading} />
+  </div>
+ ) }
   
 
   return (

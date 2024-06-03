@@ -3,10 +3,12 @@ import styles from "./SubmissionQuiz.module.css";
 import { useParams } from "react-router-dom";
 import Poll from "./Poll";
 import QA from "./QA";
+import { PacmanLoader } from "react-spinners";
+
 
 const SubmissionQuiz = () => {
   const { id } = useParams();
-
+  const [loading, setLoading] = useState(true);
   const [quiz, setQuiz] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
@@ -24,6 +26,7 @@ const SubmissionQuiz = () => {
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
+         setTimeout(()=>{ setLoading(false)},2000)
 
         const data = await response.json();
         setQuiz(data);
@@ -47,6 +50,7 @@ const SubmissionQuiz = () => {
             },
           }
         );
+        
       } catch (error) {
         console.error("Error fetching quiz data:", error);
       }
@@ -116,8 +120,21 @@ const SubmissionQuiz = () => {
     }
   };
 
-  if (!quiz) {
-    return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          width: "100vw",
+          color: "#8E8E8E",
+        }}
+      >
+        <PacmanLoader color="#333" size={50} loading={loading} />
+      </div>
+    );
   }
 
   const currentQuestion = quiz.questions[currentQuestionIndex];
@@ -131,7 +148,7 @@ const SubmissionQuiz = () => {
 
   return (
     <div className={styles.App}>
-      {isSubmitted ? (
+      {!isSubmitted ? (
         
         <div className={styles.quizContainer}>
           <div className={styles.header}>

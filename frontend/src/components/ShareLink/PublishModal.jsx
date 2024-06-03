@@ -4,12 +4,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import styles from './PublishModal.module.css';
 import { useNavigate } from 'react-router-dom';
 
+
 const PublishModal = () => {
   const navigate = useNavigate()
   let id  = localStorage.getItem("quizId")
   console.log(id)
 
-  let link = `https://quizees-1.onrender.com/test/${id}`
+  let link = `http://localhost:3000/test/${id}`
 
   const handleShareClick = () => {
     navigator.clipboard.writeText(link);
