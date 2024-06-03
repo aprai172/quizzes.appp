@@ -9,7 +9,7 @@ const PublishModal = () => {
   let id  = localStorage.getItem("quizId")
   console.log(id)
 
-  let link = `https://quizizes.vercel.app/test/${id}`
+  let link = `https://quizees-1.onrender.com/test/${id}`
 
   const handleShareClick = () => {
     navigator.clipboard.writeText(link);
