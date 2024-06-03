@@ -86,6 +86,11 @@ const SignUpLoginForm = () => {
     }
   };
 
+  const handleInputChange = (setter, field) => (e) => {
+    setter(e.target.value);
+    setErrors(prevErrors => ({ ...prevErrors, [field]: '' }));
+  };
+
   return (
     <div className={styles.container}>
       <ToastContainer />
@@ -106,63 +111,73 @@ const SignUpLoginForm = () => {
           </button>
         </div>
         <form className={styles.form} onSubmit={handleSubmit}>
-      {isSignUp && (
-        <div className={styles.inputGroup}>
-          <label htmlFor="username" className={styles.label}>Username</label>
-          <input
-            id="username"
-            type="text"
-            placeholder={errors.username ? errors.username : ""}
-            value={username}
-            onChange={(e) => setUserName(e.target.value)}
-            className={`${styles.input} ${errors.username ? styles.errorInput : ''}`}
-            title={errors.username ? errors.username : ""}
-          />
-        </div>
-      )}
-      <div className={styles.inputGroup}>
-        <label htmlFor="email" className={styles.label}>Email</label>
-        <input
-          id="email"
-          type="email"
-          placeholder={errors.email ? errors.email : ""}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className={`${styles.input} ${errors.email ? styles.errorInput : ''}`}
-          title={errors.email ? errors.email : ""}
-        />
-      </div>
-      <div className={styles.inputGroup}>
-        <label htmlFor="password" className={styles.label}>Password</label>
-        <input
-          id="password"
-          type="password"
-          placeholder={errors.password ? errors.password : ""}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className={`${styles.input} ${errors.password ? styles.errorInput : ''}`}
-          title={errors.password ? errors.password : ""}
-        />
-      </div>
-      {isSignUp && (
-        <div className={styles.inputGroup}>
-          <label htmlFor="confirmPassword" className={styles.label}>Confirm Password</label>
-          <input
-            id="confirmPassword"
-            type="password"
-            placeholder={errors.confirmPassword ? errors.confirmPassword : ""}
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className={`${styles.input} ${errors.confirmPassword ? styles.errorInput : ''}`}
-
-
-          />
-        </div>
-      )}
-      <button type="submit" className={styles.submitButton}>
-        {isSignUp ? 'Sign Up' : 'Log In'}
-      </button>
-    </form>
+          {isSignUp && (
+            <div>
+              <div className={styles.inputGroup}>
+                <label htmlFor="username" className={styles.label}>Username</label>
+                <input
+                  id="username"
+                  type="text"
+                  placeholder={errors.username ? errors.username : ""}
+                  value={username}
+                  onChange={handleInputChange(setUserName, 'username')}
+                  className={`${styles.input} ${errors.username ? styles.errorInput : ''}`}
+                  title={errors.username ? errors.username : ""}
+                />
+              </div>
+              {errors.username && <span className={styles.errorMessage}>{errors.username}</span>}
+            </div>
+          )}
+          <div>
+            <div className={styles.inputGroup}>
+              <label htmlFor="email" className={styles.label}>Email</label>
+              <input
+                id="email"
+                type="email"
+                placeholder={errors.email ? errors.email : ""}
+                value={email}
+                onChange={handleInputChange(setEmail, 'email')}
+                className={`${styles.input} ${errors.email ? styles.errorInput : ''}`}
+                title={errors.email ? errors.email : ""}
+              />
+            </div>
+            {errors.email && <span className={styles.errorMessage}>{errors.email}</span>}
+          </div>
+          <div>
+            <div className={styles.inputGroup}>
+              <label htmlFor="password" className={styles.label}>Password</label>
+              <input
+                id="password"
+                type="password"
+                placeholder={errors.password ? errors.password : ""}
+                value={password}
+                onChange={handleInputChange(setPassword, 'password')}
+                className={`${styles.input} ${errors.password ? styles.errorInput : ''}`}
+                title={errors.password ? errors.password : ""}
+              />
+            </div>
+            {errors.password && <span className={styles.errorMessage}>{errors.password}</span>}
+          </div>
+          {isSignUp && (
+            <div>
+              <div className={styles.inputGroup}>
+                <label htmlFor="confirmPassword" className={styles.label}>Confirm Password</label>
+                <input
+                  id="confirmPassword"
+                  type="password"
+                  placeholder={errors.confirmPassword ? errors.confirmPassword : ""}
+                  value={confirmPassword}
+                  onChange={handleInputChange(setConfirmPassword, 'confirmPassword')}
+                  className={`${styles.input} ${errors.confirmPassword ? styles.errorInput : ''}`}
+                />
+              </div>
+              {errors.confirmPassword && <span className={styles.errorMessage}>{errors.confirmPassword}</span>}
+            </div>
+          )}
+          <button type="submit" className={styles.submitButton}>
+            {isSignUp ? 'Sign Up' : 'Log In'}
+          </button>
+        </form>
       </div>
     </div>
   );

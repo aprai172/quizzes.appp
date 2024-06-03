@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styles from "./CreateQuizModal.module.css";
 import { useNavigate } from "react-router-dom";
 import Delete from "../../assets/Delete.png";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateQuizModal = ({ setIsShow, quizData, updateQuizData, isEdit }) => {
   const initialOptions = quizData.type === "Poll"
@@ -96,7 +98,7 @@ const CreateQuizModal = ({ setIsShow, quizData, updateQuizData, isEdit }) => {
 
     try {
       const method = isEdit ? 'PUT' : 'POST';
-      const url = isEdit ? `http://localhost:5000/api/quizzes/${localStorage.getItem("quizId")}` : `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes`;
+      const url = isEdit ? `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes/${localStorage.getItem("quizId")}` : `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes`;
 
       const response = await fetch(url, {
         method,
@@ -110,21 +112,26 @@ const CreateQuizModal = ({ setIsShow, quizData, updateQuizData, isEdit }) => {
       if (!response.ok) {
         const errorData = await response.json();
         setError(errorData.message || 'Something went wrong');
+        toast.error(errorData.message || 'Something went wrong');
         return;
       }
 
       const savedQuiz = await response.json();
       localStorage.setItem('quizId', savedQuiz._id);
       updateQuizData(savedQuiz);
-      navigate("/share-link");
+
+      toast.success(isEdit ? 'Quiz updated successfully!' : 'Quiz created successfully!');
+      setTimeout(() => navigate("/share-link"), 2000); // Redirect after 2 seconds
 
     } catch (error) {
       setError('Something went wrong');
+      toast.error('Something went wrong');
     }
   };
 
   return (
     <div className={styles.modal}>
+      <ToastContainer />
       <div className={styles.modalContent}>
         <div className={styles.header}>
           <div className={styles.addquiz}>

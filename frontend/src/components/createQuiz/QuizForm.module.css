@@ -16,7 +16,7 @@
   padding: 20px;
   border-radius: 5px;
   width: 30%;
-  height: 20%;
+  height: 30%;
   margin: auto;
 }
 
@@ -76,4 +76,7 @@ cursor: pointer;
 .selected {
   background: #60b84b;
   color: white;
+}
+.error{
+  color: red;
 }
