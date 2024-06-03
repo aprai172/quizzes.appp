@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.css";
-import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [selectedPath, setSelectedPath] = useState(location.pathname);
 
   const LogoutHandler = (path) => {
     localStorage.clear();
@@ -14,6 +16,7 @@ const Sidebar = () => {
     if (localStorage.getItem("edit")) {
       localStorage.removeItem("edit");
     }
+    setSelectedPath(path);
     navigate(path);
   };
 
@@ -22,12 +25,30 @@ const Sidebar = () => {
       <h1 className={styles.header}>QUIZZIE</h1>
       <nav>
         <ul>
-          <li onClick={() => handleNavigation("/dashboard")}>Dashboard</li>
-          <li onClick={() => handleNavigation("/quiz-analysis")}>Analytics</li>
-          <li onClick={() => handleNavigation("/Create-quiz")}>Create Quiz</li>
+          <li
+            className={selectedPath === "/dashboard" ? styles.selected : ""}
+            onClick={() => handleNavigation("/dashboard")}
+          >
+            Dashboard
+          </li>
+          <li
+            className={selectedPath === "/quiz-analysis" ? styles.selected : ""}
+            onClick={() => handleNavigation("/quiz-analysis")}
+          >
+            Analytics
+          </li>
+          <li
+            className={selectedPath === "/Create-quiz" ? styles.selected : ""}
+            onClick={() => handleNavigation("/Create-quiz")}
+          >
+            Create Quiz
+          </li>
         </ul>
       </nav>
-      <button className={styles.logout} onClick={() => LogoutHandler("/")}>LOGOUT</button>
+     <div className={styles.divider}></div>
+      <button className={styles.logout} onClick={() => LogoutHandler("/")}>
+        LOGOUT
+      </button>
     </div>
   );
 };

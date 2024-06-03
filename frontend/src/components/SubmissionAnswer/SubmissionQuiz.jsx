@@ -13,10 +13,11 @@ const SubmissionQuiz = () => {
   const [answers, setAnswers] = useState([]);
   const [score, setScore] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/quizzes/${id}`);
+        const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes/${id}`);
     
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -26,11 +27,14 @@ const SubmissionQuiz = () => {
         setQuiz(data);
     
         if (data.questions && data.questions.length > 0) {
-          setTimeLeft(parseInt(data.questions[0].timer, 10));
+          const initialTimeLeft = parseInt(data.questions[0].timer, 10);
+          if (!isNaN(initialTimeLeft)) {
+            setTimeLeft(initialTimeLeft);
+          }
         }
     
         // Update the impression count
-        await fetch(`http://localhost:5000/api/quizzes/${id}/impressions`, {
+        await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes/${id}/impressions`, {
           method: 'GET', 
           headers: {
             'Content-Type': 'application/json'
@@ -59,8 +63,14 @@ const SubmissionQuiz = () => {
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < quiz?.questions?.length - 1) {
-      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-      setTimeLeft(parseInt(quiz.questions[currentQuestionIndex + 1].timer, 10));
+      const nextIndex = currentQuestionIndex + 1;
+      setCurrentQuestionIndex(nextIndex);
+      const nextTimeLeft = parseInt(quiz.questions[nextIndex].timer, 10);
+      if (!isNaN(nextTimeLeft)) {
+        setTimeLeft(nextTimeLeft);
+      } else {
+        setTimeLeft(0);
+      }
     }
   };
 
@@ -101,7 +111,7 @@ const SubmissionQuiz = () => {
   if (!quiz) {
     return <div>Loading...</div>;
   }
-console.log(quiz.questions.length)
+
   const currentQuestion = quiz.questions[currentQuestionIndex];
 
   const renderQuestionComponent = () => {
@@ -120,7 +130,8 @@ console.log(quiz.questions.length)
               {currentQuestionIndex + 1}/{quiz.questions.length}
             </div>
             <div className={styles.timer}>
-              00:{timeLeft < 10 ? `0${timeLeft}` : timeLeft}s
+            
+            {quiz.type === "Q&A" ? `00:${timeLeft < 10 ? `0${timeLeft}` : timeLeft}s` : ""}
             </div>
           </div>
           <div className={styles.question}>{currentQuestion.questionText}</div>

@@ -80,7 +80,6 @@ const SignUpLoginForm = () => {
         signup();
       } else {
         login();
-      
       }
     } else {
       setErrors(validationErrors);
@@ -107,46 +106,63 @@ const SignUpLoginForm = () => {
           </button>
         </div>
         <form className={styles.form} onSubmit={handleSubmit}>
-          {isSignUp && (
-            <input
-              type="text"
-              placeholder={errors.username ? errors.username : "Username"}
-              value={username}
-              onChange={(e) => setUserName(e.target.value)}
-              className={`${styles.input} ${errors.username ? styles.errorInput : ''}`}
-              title={errors.username ? errors.username : ""}
-            />
-          )}
+      {isSignUp && (
+        <div className={styles.inputGroup}>
+          <label htmlFor="username" className={styles.label}>Username</label>
           <input
-            type="email"
-            placeholder={errors.email ? errors.email : "Email"}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className={`${styles.input} ${errors.email ? styles.errorInput : ''}`}
-            title={errors.email ? errors.email : ""}
+            id="username"
+            type="text"
+            placeholder={errors.username ? errors.username : ""}
+            value={username}
+            onChange={(e) => setUserName(e.target.value)}
+            className={`${styles.input} ${errors.username ? styles.errorInput : ''}`}
+            title={errors.username ? errors.username : ""}
           />
+        </div>
+      )}
+      <div className={styles.inputGroup}>
+        <label htmlFor="email" className={styles.label}>Email</label>
+        <input
+          id="email"
+          type="email"
+          placeholder={errors.email ? errors.email : ""}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className={`${styles.input} ${errors.email ? styles.errorInput : ''}`}
+          title={errors.email ? errors.email : ""}
+        />
+      </div>
+      <div className={styles.inputGroup}>
+        <label htmlFor="password" className={styles.label}>Password</label>
+        <input
+          id="password"
+          type="password"
+          placeholder={errors.password ? errors.password : ""}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className={`${styles.input} ${errors.password ? styles.errorInput : ''}`}
+          title={errors.password ? errors.password : ""}
+        />
+      </div>
+      {isSignUp && (
+        <div className={styles.inputGroup}>
+          <label htmlFor="confirmPassword" className={styles.label}>Confirm Password</label>
           <input
+            id="confirmPassword"
             type="password"
-            placeholder={errors.password ? errors.password : "Password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={`${styles.input} ${errors.password ? styles.errorInput : ''}`}
-            title={errors.password ? errors.password : ""}
+            placeholder={errors.confirmPassword ? errors.confirmPassword : ""}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className={`${styles.input} ${errors.confirmPassword ? styles.errorInput : ''}`}
+
+
           />
-          {isSignUp && (
-            <input
-              type="password"
-              placeholder={errors.confirmPassword ? errors.confirmPassword : "Confirm Password"}
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className={`${styles.input} ${errors.confirmPassword ? styles.errorInput : ''}`}
-              title={errors.confirmPassword ? errors.confirmPassword : ""}
-            />
-          )}
-          <button type="submit" className={styles.submitButton}>
-            {isSignUp ? 'Sign Up' : 'Log In'}
-          </button>
-        </form>
+        </div>
+      )}
+      <button type="submit" className={styles.submitButton}>
+        {isSignUp ? 'Sign Up' : 'Log In'}
+      </button>
+    </form>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  height: 100vh;
   background-color: #f8f8f8;
 }
 
@@ -11,50 +11,89 @@
   background-color: #fff;
   padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 30px 0px #00000026;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
-  max-width: 400px;
+  max-width: 65%;
   text-align: center;
+  height: 65%;
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 4rem;
+  margin-bottom: 2rem;
+  font-family: 'Jomhuria', serif;
   font-weight: bold;
-  margin-bottom: 1rem;
+  line-height: 100px;
 }
 
 .toggleButtons {
   display: flex;
+  align-items: center;
   justify-content: center;
-  margin-bottom: 1rem;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  width: 100%;
+  height: 7%;
 }
 
 .toggleButton {
   padding: 0.5rem 1rem;
   margin: 0 0.5rem;
   border: none;
-  background-color: #ddd;
   cursor: pointer;
-  border-radius: 5px;
+
   font-size: 1rem;
+  background-color: transparent;
   transition: background-color 0.3s ease;
 }
 
 .toggleButton.active {
-  background-color: #d1d1ff;
+  width: 18.4%;
+  height: 100%;
+  box-shadow: 0px 0px 50px 0px #0019FF3D;
+
+border-radius: 10px ;
+
 }
 
 .form {
   display: flex;
   flex-direction: column;
+  width: 39%;
+  margin-right: 3rem;
+  gap: 2rem;
+}
+
+.inputGroup {
+  display: flex;
+  align-items: center;
+  
+}
+
+.label {
+  min-width: 148px;
+  margin-right: 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: right;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  line-height: 30px;
 }
 
 .input {
+  flex: 1;
   padding: 0.5rem;
-  margin-bottom: 1rem;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 10px 10px 0px 0px;
   font-size: 1rem;
+  width: 30%;
+  background: #F4F4F4;
+  border: none;
+  outline: none;
 }
 
 .errorInput {
@@ -71,11 +110,17 @@
 .submitButton {
   padding: 0.5rem;
   border: none;
-  background-color: #d1d1ff;
+  background: #A9BCFF;
+  color: #474444;
+
+
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 8px;
   font-size: 1rem;
   transition: background-color 0.3s ease;
+  width: 50%;
+  margin: 2rem auto;
+
 }
 
 .submitButton:hover {

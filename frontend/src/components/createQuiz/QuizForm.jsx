@@ -70,17 +70,18 @@ const QuizForm = () => {
     <div className={styles.modal}>
       <div className={styles.modalContent}>
         {error && <p className={styles.error}>{error}</p>}
-        <label>Quiz Title</label>
+        
         <input
           type="text"
           name="title"
+          placeholder="Quiz name"
           className={styles.input}
           value={quizData.title}
           onChange={handleChange}
         />
 
-        <label>Quiz Type</label>
         <div className={styles.quizType}>
+        <label>Quiz Type</label>
           <button
             className={`${styles.button} ${
               quizData.type === "Q&A" ? styles.selected : ""

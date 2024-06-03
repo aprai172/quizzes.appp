@@ -63,13 +63,25 @@ const Dashboard = () => {
     });
   };
 
+  
+
   return (
     <div className={styles.dashboard}>
-      <div className={styles.stats}>
-        <StatsCard title="Quizzes Created" value={stats.quizzesCreated} />
-        <StatsCard title="Questions Created" value={stats.questionsCreated} />
-        <StatsCard title="Total Impressions" value={stats.totalImpressions} />
-      </div>
+   <div className={styles.stats}>
+      <StatsCard title1="Quiz" title=" Created" value={stats.quizzesCreated} />
+      <StatsCard
+        title1="questions"
+        title=" Created"
+        value={stats.questionsCreated}
+        style={{ color: 'blue' }}
+      />
+      <StatsCard
+        title1="Total"
+        title=" Impressions"
+        value={stats.totalImpressions}
+        style={{ color: 'green' }}
+      />
+    </div>
       <div className={styles.trendingQuizzes}>
         <h3>Trending Quizzes</h3>
         <div className={styles.quizzes}>

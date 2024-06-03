@@ -58,6 +58,7 @@
   background-size: cover;
   border: none;
   cursor: pointer;
+  background: none;
 }
 
 .editButton {

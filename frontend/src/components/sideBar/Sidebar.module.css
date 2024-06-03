@@ -23,6 +23,7 @@
 
 nav {
   margin-top: auto;
+  width: 83%;
 }
 
 nav ul {
@@ -31,21 +32,42 @@ nav ul {
 }
 
 nav ul li {
-  margin: 3rem;
+  margin-bottom: 3rem;
   font-family: Poppins;
   font-size: 20px;
   font-weight: 600;
   line-height: 30px;
   text-align: left;
   cursor: pointer;
+  padding: 10px;
+  transition: box-shadow 0.3s ease-in-out;
+  text-align: center;
+}
+nav ul li:hover,
+nav ul li.selected {
+  box-shadow: 0px 0px 14px 0px #0000001f;
+  border-radius: 10px;
+}
+.divider {
+  width: 70%;
+  border: 1px solid black;
+
+  top: 20%;
+  position: relative;
 }
 
 .logout {
   margin-top: auto;
   background: none;
   border: none;
-  color: red;
+
+  color: #474444;
+
   cursor: pointer;
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
 }
 
 @media (max-width: 768px) {

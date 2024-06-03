@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import styles from "./CreateQuizModal.module.css";
 import { useNavigate } from "react-router-dom";
+import Delete from "../../assets/Delete.png";
 
 const CreateQuizModal = ({ setIsShow, quizData, updateQuizData, isEdit }) => {
   const initialOptions = quizData.type === "Poll"
     ? [{ text: "", imageUrl: "" }, { text: "", imageUrl: "" }, { text: "", imageUrl: "" }, { text: "", imageUrl: "" }]
     : [{ text: "", imageUrl: "" }];
 
-  const [questions, setQuestions] = useState(quizData.questions.length ? quizData.questions : [
-    { questionText: "", options: initialOptions, answer: "", timer: "off", optionType: "text" }
-  ]);
+  const initialQuestions = quizData.questions && quizData.questions.length
+    ? quizData.questions
+    : [{ questionText: "", options: initialOptions, answer: "", timer: "off", optionType: "text" }];
 
+  const [questions, setQuestions] = useState(initialQuestions);
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0); // Track the selected question
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -27,6 +29,12 @@ const CreateQuizModal = ({ setIsShow, quizData, updateQuizData, isEdit }) => {
     setQuestions(newQuestions);
   };
 
+  const handleRemoveOption = (questionIndex, optionIndex) => {
+    const newQuestions = [...questions];
+    newQuestions[questionIndex].options.splice(optionIndex, 1);
+    setQuestions(newQuestions);
+  };
+
   const handleAddQuestion = () => {
     setQuestions([...questions, { questionText: "", options: initialOptions, answer: "", timer: "off", optionType: "text" }]);
     setSelectedQuestionIndex(questions.length); // Set the new question as selected
@@ -38,15 +46,15 @@ const CreateQuizModal = ({ setIsShow, quizData, updateQuizData, isEdit }) => {
     setQuestions(newQuestions);
   };
 
-  const handleAnswerChange = (index, value) => {
+  const handleAnswerChange = (questionIndex, value) => {
     const newQuestions = [...questions];
-    newQuestions[index].answer = value;
+    newQuestions[questionIndex].answer = value;
     setQuestions(newQuestions);
   };
 
   const handleTimerChange = (index, value) => {
     const newQuestions = [...questions];
-    newQuestions[index].timer = value;
+    newQuestions[index].timer = value === "off" ? "00" : value;
     setQuestions(newQuestions);
   };
 
@@ -82,8 +90,8 @@ const CreateQuizModal = ({ setIsShow, quizData, updateQuizData, isEdit }) => {
 
     try {
       const method = isEdit ? 'PUT' : 'POST';
-      const url = isEdit ? `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes/${localStorage.getItem("quizId")}` : `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes`;
-      
+      const url = isEdit ? `http://localhost:5000/api/quizzes/${localStorage.getItem("quizId")}` : `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes`;
+
       const response = await fetch(url, {
         method,
         headers: {
@@ -109,41 +117,43 @@ const CreateQuizModal = ({ setIsShow, quizData, updateQuizData, isEdit }) => {
     }
   };
 
-
   return (
     <div className={styles.modal}>
       <div className={styles.modalContent}>
         <div className={styles.header}>
-          {questions.map((_, index) => (
-            <span
-              key={index}
-              className={`${styles.step} ${selectedQuestionIndex === index ? styles.selected : ""}`}
-              onClick={() => setSelectedQuestionIndex(index)}
-            >
-              {index + 1}
-            </span>
-          ))}
-          <button className={styles.addButton} onClick={handleAddQuestion}>+</button>
+          <div className={styles.addquiz}>
+            {questions.map((_, index) => (
+              <span
+                key={index}
+                className={`${styles.step} ${selectedQuestionIndex === index ? styles.selected : ""}`}
+                onClick={() => setSelectedQuestionIndex(index)}
+              >
+                {index + 1}
+              </span>
+            ))}
+            <button className={styles.addButton} onClick={handleAddQuestion}>+</button>
+          </div>
+          <p>Max 5 questions</p>
         </div>
         {error && <p className={styles.error}>{error}</p>}
-        {questions.map((question, index) => (
-          selectedQuestionIndex === index && (
-            <div key={index} className={styles.question}>
-              <label>Question {index + 1}</label>
+        {questions.map((question, qIndex) => (
+          selectedQuestionIndex === qIndex && (
+            <div key={qIndex} className={styles.question}>
               <input
+                placeholder={quizData.type === "Q&A" ? "Q&A Question " : "Poll Question "}
                 type="text"
                 className={styles.input}
                 value={question.questionText}
-                onChange={(e) => handleQuestionChange(index, e.target.value)}
+                onChange={(e) => handleQuestionChange(qIndex, e.target.value)}
               />
-              <label>Option Type</label>
               <div className={styles.optionType}>
+                <label>Option Type</label>
                 <label>
                   <input
                     type="radio"
                     value="text"
                     checked={question.optionType === "text"}
-                    onChange={() => handleOptionTypeChange(index, "text")}
+                    onChange={() => handleOptionTypeChange(qIndex, "text")}
                   />
                   Text
                 </label>
@@ -152,7 +162,7 @@ const CreateQuizModal = ({ setIsShow, quizData, updateQuizData, isEdit }) => {
                     type="radio"
                     value="imageUrl"
                     checked={question.optionType === "imageUrl"}
-                    onChange={() => handleOptionTypeChange(index, "imageUrl")}
+                    onChange={() => handleOptionTypeChange(qIndex, "imageUrl")}
                   />
                   Image URL
                 </label>
@@ -161,53 +171,94 @@ const CreateQuizModal = ({ setIsShow, quizData, updateQuizData, isEdit }) => {
                     type="radio"
                     value="textImageUrl"
                     checked={question.optionType === "textImageUrl"}
-                    onChange={() => handleOptionTypeChange(index, "textImageUrl")}
+                    onChange={() => handleOptionTypeChange(qIndex, "textImageUrl")}
                   />
                   Text & Image URL
                 </label>
               </div>
-              <label>Options</label>
-              {question.options.map((option, optionIndex) => (
-                <div key={optionIndex} className={styles.option}>
-                  {question.optionType === "text" && (
-                    <input
-                      type="text"
-                      className={styles.optionInput}
-                      value={option.text}
-                      onChange={(e) => handleOptionChange(index, optionIndex, e.target.value, "text")}
-                    />
-                  )}
-                  {question.optionType === "imageUrl" && (
-                    <input
-                      type="text"
-                      className={styles.optionInput}
-                      value={option.imageUrl}
-                      onChange={(e) => handleOptionChange(index, optionIndex, e.target.value, "imageUrl")}
-                    />
-                  )}
-                  {question.optionType === "textImageUrl" && (
-                    <>
+              <div className={styles.optionsAndTimer}>
+                <div className={styles.options}>
+                  {question.options.map((option, optionIndex) => (
+                    <div key={optionIndex} className={styles.option}>
                       <input
-                        type="text"
-                        className={styles.optionInput}
-                        value={option.text}
-                        onChange={(e) => handleOptionChange(index, optionIndex, e.target.value, "text")}
-                        placeholder="Text"
+                        type="radio"
+                        name={`option${qIndex}`}
+                        className={styles.optionRadio}
+                        onChange={() => handleAnswerChange(qIndex, option.text)}
+                        checked={question.answer === option.text}
                       />
-                      <input
-                        type="text"
-                        className={styles.optionInput}
-                        value={option.imageUrl}
-                        onChange={(e) => handleOptionChange(index, optionIndex, e.target.value, "imageUrl")}
-                        placeholder="Image URL"
-                      />
-                    </>
-                  )}
+                      {question.optionType === "text" && (
+                        <input
+                          type="text"
+                          className={styles.optionInput}
+                          value={option.text}
+                          onChange={(e) => handleOptionChange(qIndex, optionIndex, e.target.value, "text")}
+                        />
+                      )}
+                      {question.optionType === "imageUrl" && (
+                        <input
+                          type="text"
+                          className={styles.optionInput}
+                          value={option.imageUrl}
+                          onChange={(e) => handleOptionChange(qIndex, optionIndex, e.target.value, "imageUrl")}
+                        />
+                      )}
+                      {question.optionType === "textImageUrl" && (
+                        <>
+                          <input
+                            type="text"
+                            className={styles.optionInput}
+                            value={option.text}
+                            onChange={(e) => handleOptionChange(qIndex, optionIndex, e.target.value, "text")}
+                            placeholder="Text"
+                          />
+                          <input
+                            type="text"
+                            className={styles.optionInput}
+                            value={option.imageUrl}
+                            onChange={(e) => handleOptionChange(qIndex, optionIndex, e.target.value, "imageUrl")}
+                            placeholder="Image URL"
+                          />
+                        </>
+                      )}
+                      {optionIndex > 1 && (
+                        <button
+                          className={styles.removeOption}
+                          onClick={() => handleRemoveOption(qIndex, optionIndex)}
+                        >
+                          <img src={Delete} alt="Remove Icon" />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  <button className={styles.addOption} onClick={() => handleAddOption(qIndex)}>
+                    Add option
+                  </button>
                 </div>
-              ))}
-              <button className={styles.addOption} onClick={() => handleAddOption(index)}>
-                Add option
-              </button>
+                {quizData.type === "Q&A" && (
+                  <div className={styles.timer}>
+                    <label>Timer</label>
+                    <button
+                      className={question.timer === "off" ? styles.selectedTimer : styles.timerButton}
+                      onClick={() => handleTimerChange(qIndex, "00")}
+                    >
+                      OFF
+                    </button>
+                    <button
+                      className={question.timer === "5" ? styles.selectedTimer : styles.timerButton}
+                      onClick={() => handleTimerChange(qIndex, "5")}
+                    >
+                      5 sec
+                    </button>
+                    <button
+                      className={question.timer === "10" ? styles.selectedTimer : styles.timerButton}
+                      onClick={() => handleTimerChange(qIndex, "10")}
+                    >
+                      10 sec
+                    </button>
+                  </div>
+                )}
+              </div>
               {quizData.type === "Q&A" && (
                 <>
                   <label>Answer</label>
@@ -215,33 +266,8 @@ const CreateQuizModal = ({ setIsShow, quizData, updateQuizData, isEdit }) => {
                     type="text"
                     className={styles.input}
                     value={question.answer}
-                    onChange={(e) => handleAnswerChange(index, e.target.value)}
+                    onChange={(e) => handleAnswerChange(qIndex, e.target.value)}
                   />
-                </>
-              )}
-              {quizData.type === "Q&A" && (
-                <>
-                  <label>Timer</label>
-                  <div className={styles.timer}>
-                    <button
-                      className={question.timer === "off" ? styles.selectedTimer : styles.timerButton}
-                      onClick={() => handleTimerChange(index, "off")}
-                    >
-                      OFF
-                    </button>
-                    <button
-                      className={question.timer === "5" ? styles.selectedTimer : styles.timerButton}
-                      onClick={() => handleTimerChange(index, "5")}
-                    >
-                      5 sec
-                    </button>
-                    <button
-                      className={question.timer === "10" ? styles.selectedTimer : styles.timerButton}
-                      onClick={() => handleTimerChange(index, "10")}
-                    >
-                      10 sec
-                    </button>
-                  </div>
                 </>
               )}
             </div>
@@ -256,7 +282,6 @@ const CreateQuizModal = ({ setIsShow, quizData, updateQuizData, isEdit }) => {
           </button>
         </div>
       </div>
-
     </div>
   );
 };
