@@ -123,7 +123,7 @@ const SubmissionQuiz = () => {
 
   return (
     <div className={styles.App}>
-      {!isSubmitted ? (
+      
         <div className={styles.quizContainer}>
           <div className={styles.header}>
             <div>
@@ -181,9 +181,7 @@ const SubmissionQuiz = () => {
             </button>
           )}
         </div>
-      ) : (
-        renderQuestionComponent()
-      )}
+      
     </div>
   );
 };

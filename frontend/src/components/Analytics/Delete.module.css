@@ -1,0 +1,52 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+.container {
+    width: 39%;
+    background: white;
+    height: 37%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+  }
+  .headerText {
+    font-size: 2rem;
+    text-wrap: wrap;
+    text-align: center;
+  }
+  .btnsWrp {
+    margin-top: 2rem;
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+  }
+  .btnsWrp button {
+    outline: 0;
+    width: fit-content;
+    cursor: pointer;
+    border: none;
+    padding: 0.4rem 3rem;
+    border-radius: 7px;
+    font-weight: 400;
+    font-size: 1.2rem;
+    background-color: #fff;
+    color: #474444;
+    box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
+    white-space: pre-line;
+  }
+  .delModalBtn {
+    background-color: #ff4b4b !important;
+    color: #fff !important;
+  }
+  

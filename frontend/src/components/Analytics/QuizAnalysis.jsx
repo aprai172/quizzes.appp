@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./QuizAnalysis.module.css";
+import Delete from "./Delete";
 
 function QuizAnalysis() {
   const [quizzes, setQuizzes] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [quizToDelete, setQuizToDelete] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -11,7 +14,7 @@ function QuizAnalysis() {
       try {
         const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes`, {
           headers: {
-            Authorization: localStorage.getItem("authToken"), 
+            Authorization: localStorage.getItem("authToken"),
           },
         });
         const data = await response.json();
@@ -59,14 +62,20 @@ function QuizAnalysis() {
     localStorage.setItem("edit", true);
     navigate("/create-quiz");
   };
-  const shareHandler =(quizId)=>{
+
+  const shareHandler = (quizId) => {
     localStorage.setItem("quizId", quizId);
     navigate("/share-link");
-  }
+  };
 
-  const handleDeleteClick = async (quizId) => {
+  const handleDeleteClick = (quizId) => {
+    setShowDeleteModal(true);
+    setQuizToDelete(quizId);
+  };
+
+  const confirmDelete = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes/${quizId}`, {
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes/${quizToDelete}`, {
         method: "DELETE",
         headers: {
           Authorization: localStorage.getItem("authToken"),
@@ -75,13 +84,21 @@ function QuizAnalysis() {
 
       if (response.ok) {
         // Remove the deleted quiz from the state
-        setQuizzes(quizzes.filter((quiz) => quiz._id !== quizId));
+        setQuizzes(quizzes.filter((quiz) => quiz._id !== quizToDelete));
       } else {
         console.error("Failed to delete the quiz");
       }
     } catch (error) {
       console.error("Error deleting quiz:", error);
+    } finally {
+      setShowDeleteModal(false);
+      setQuizToDelete(null);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
+    setQuizToDelete(null);
   };
 
   return (
@@ -107,7 +124,7 @@ function QuizAnalysis() {
                 className={styles.editButton}
                 onClick={() => handleEditClick(quiz._id)}
               ></button>
-            <button
+              <button
                 className={styles.deleteButton}
                 onClick={() => handleDeleteClick(quiz._id)}
               ></button>
@@ -123,6 +140,9 @@ function QuizAnalysis() {
           </div>
         ))}
       </div>
+      {showDeleteModal && (
+        <Delete confirmDelete={confirmDelete} cancelDelete={cancelDelete} />
+      )}
     </div>
   );
 }
