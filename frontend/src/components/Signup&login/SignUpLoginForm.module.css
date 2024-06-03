@@ -60,7 +60,8 @@
   flex-direction: column;
   width: 100%;
   max-width: 600px;
-  gap: 1rem;
+  gap: 2rem;
+  margin-right: 5rem;
 }
 
 .inputGroup {
@@ -112,6 +113,7 @@
   width: 100%;
   max-width: 300px;
   margin: 2rem auto;
+  margin-left: 14rem;
 }
 
 .submitButton:hover {
