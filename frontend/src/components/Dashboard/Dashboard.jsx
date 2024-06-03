@@ -59,7 +59,7 @@ const Dashboard = () => {
   }, []);
 
   // Filter trending quizzes
-  const trendingQuizzes = quizzes.filter((quiz) => quiz?.impressions > 0) ?? [];
+  const trendingQuizzes = quizzes.filter((quiz) => quiz?.impressions > 10) ?? [];
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
