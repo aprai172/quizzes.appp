@@ -6,7 +6,7 @@ import QA from "./QA";
 
 const SubmissionQuiz = () => {
   const { id } = useParams();
-  
+
   const [quiz, setQuiz] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
@@ -17,37 +17,43 @@ const SubmissionQuiz = () => {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes/${id}`);
-    
+        const response = await fetch(
+          `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes/${id}`
+        );
+
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
-    
+
         const data = await response.json();
         setQuiz(data);
-    
+
         if (data.questions && data.questions.length > 0) {
           const initialTimeLeft = parseInt(data.questions[0].timer, 10);
           if (!isNaN(initialTimeLeft)) {
             setTimeLeft(initialTimeLeft);
           }
         }
-    
+
         // Update the impression count
-        await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/quizzes/${id}/impressions`, {
-          method: 'GET', 
-          headers: {
-            'Content-Type': 'application/json'
+        await fetch(
+          `${
+            import.meta.env.VITE_REACT_APP_BACKEND_URL
+          }/api/quizzes/${id}/impressions`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
           }
-        });
+        );
       } catch (error) {
         console.error("Error fetching quiz data:", error);
       }
     };
-    
+
     fetchQuiz();
   }, [id]);
-  
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -86,7 +92,9 @@ const SubmissionQuiz = () => {
   const handleSubmit = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/submissions/${id}/submit`,
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_URL
+        }/api/submissions/${id}/submit`,
         {
           method: "POST",
           headers: {
@@ -116,22 +124,24 @@ const SubmissionQuiz = () => {
 
   const renderQuestionComponent = () => {
     if (quiz.type === "Poll") {
-      return <Poll  />;
+      return <Poll />;
     }
     return <QA score={score} quiz={quiz} />;
   };
 
   return (
     <div className={styles.App}>
-      
+      {isSubmitted ? (
+        
         <div className={styles.quizContainer}>
           <div className={styles.header}>
             <div>
               {currentQuestionIndex + 1}/{quiz.questions.length}
             </div>
             <div className={styles.timer}>
-            
-            {quiz.type === "Q&A" ? `00:${timeLeft < 10 ? `0${timeLeft}` : timeLeft}s` : ""}
+              {quiz.type === "Q&A"
+                ? `00:${timeLeft < 10 ? `0${timeLeft}` : timeLeft}s`
+                : ""}
             </div>
           </div>
           <div className={styles.question}>{currentQuestion.questionText}</div>
@@ -181,7 +191,10 @@ const SubmissionQuiz = () => {
             </button>
           )}
         </div>
-      
+      ) : (
+        renderQuestionComponent()
+      )
+      }{" "}
     </div>
   );
 };
