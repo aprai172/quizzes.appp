@@ -9,7 +9,7 @@ const PublishModal = () => {
   let id  = localStorage.getItem("quizId")
   console.log(id)
 
-  let link = `http://localhost:3000/test/${id}`
+  let link = `https://quizees.onrender.com/test/${id}`
 
   const handleShareClick = () => {
     navigator.clipboard.writeText(link);
