@@ -13,7 +13,7 @@ const CreateQuizModal = ({ setIsShow, quizData, updateQuizData, isEdit }) => {
     : [{ questionText: "", options: initialOptions, answer: "", timer: "off", optionType: "text" }];
 
   const [questions, setQuestions] = useState(initialQuestions);
-  const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0); // Track the selected question
+  const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -37,7 +37,13 @@ const CreateQuizModal = ({ setIsShow, quizData, updateQuizData, isEdit }) => {
 
   const handleAddQuestion = () => {
     setQuestions([...questions, { questionText: "", options: initialOptions, answer: "", timer: "off", optionType: "text" }]);
-    setSelectedQuestionIndex(questions.length); // Set the new question as selected
+    setSelectedQuestionIndex(questions.length);
+  };
+
+  const handleDeleteQuestion = (questionIndex) => {
+    const newQuestions = questions.filter((_, index) => index !== questionIndex);
+    setQuestions(newQuestions);
+    setSelectedQuestionIndex(Math.max(0, questionIndex - 1));
   };
 
   const handleQuestionChange = (index, value) => {
@@ -108,7 +114,7 @@ const CreateQuizModal = ({ setIsShow, quizData, updateQuizData, isEdit }) => {
       }
 
       const savedQuiz = await response.json();
-      localStorage.setItem('quizId', savedQuiz._id); // Store the _id in local storage
+      localStorage.setItem('quizId', savedQuiz._id);
       updateQuizData(savedQuiz);
       navigate("/share-link");
 
@@ -129,6 +135,9 @@ const CreateQuizModal = ({ setIsShow, quizData, updateQuizData, isEdit }) => {
                 onClick={() => setSelectedQuestionIndex(index)}
               >
                 {index + 1}
+                {index > 0 && (
+                  <span className={styles.cross} onClick={(e) => { e.stopPropagation(); handleDeleteQuestion(index); }}>x</span>
+                )}
               </span>
             ))}
             <button className={styles.addButton} onClick={handleAddQuestion}>+</button>
