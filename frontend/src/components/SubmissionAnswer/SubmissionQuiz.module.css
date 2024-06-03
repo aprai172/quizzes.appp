@@ -52,10 +52,10 @@
 .options {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 2rem;
   justify-content: center;
   margin-bottom: 1.5rem;
-  width: 100%;
+  width: 81%;
 }
 
 .optionButton {
